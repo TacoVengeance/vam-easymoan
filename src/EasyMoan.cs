@@ -231,10 +231,14 @@ namespace geesp0t
         //protected extraltodeusBreathingPlugin.B breathing = null;
         protected BreatheLite breatheLite;
 
+        //MacGruber's Life.Breathing Plugin - if present, tie its breathing intensity to our arousal percent
+        private JSONStorable macGruberLifePlugin = null;
+
         //MENU UI
         protected MainUIButtons mainUIButtons = null;
 
         bool useDeepVagTarget = false;
+
 
         public static T FindInPlugin<T>(MVRScript self) where T : MVRScript // thanks mcgruber
         {
@@ -458,6 +462,8 @@ namespace geesp0t
 
                 mainUIButtons = new MainUIButtons();
                 mainUIButtons.Init(this);
+
+                ConfigureMacGruberLifeIntegration();
             }
             catch (Exception e) { SuperController.LogError("Exception caught: " + e); }
         }
@@ -1328,6 +1334,11 @@ namespace geesp0t
 
                 percentToOrgasmFloat.SetVal(percentToOrgasm);
 
+                if (macGruberLifePlugin != null)
+                {
+                    macGruberLifePlugin.SetFloatParamValue("Intensity", percentToOrgasm);
+                }
+
                 //handle vagina morphs based on arousal and orgasm
                 if (orgasming)
                 {
@@ -1474,6 +1485,11 @@ namespace geesp0t
             orgasming = true;
             orgasmStartTime = Time.timeSinceLevelLoad;
             orgasmStep = 0;
+
+            if (macGruberLifePlugin != null)
+            {
+                macGruberLifePlugin.CallAction("QueueOrgasm");
+            }
 
             if (logMessages) SuperController.LogMessage("Start orgasm sequence");
         }
@@ -1854,6 +1870,21 @@ namespace geesp0t
                 SuperController.LogError("Exception caught: " + e);
             }
 
+        }
+
+        private void ConfigureMacGruberLifeIntegration()
+        {
+            var macGruberLifePluginStorableId =
+                containingAtom.GetStorableIDs().
+                Where(s => s.StartsWith("plugin#") && s.Contains("MacGruber.Breathing")).
+                FirstOrDefault();
+
+            if (macGruberLifePluginStorableId != null)
+            {
+                macGruberLifePlugin = containingAtom.GetStorableByID(macGruberLifePluginStorableId);
+
+                if (logMessages) SuperController.LogMessage("MacGruber's Life/Breathing plugin integration enabled");
+            }
         }
     }
 
