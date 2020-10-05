@@ -16,6 +16,9 @@ namespace geesp0t
 
         //control a cycleforce
 
+        //manually edit this to avoid creating the CycleForce on plugin init:
+        private readonly bool ensureCycleForcePresentOnInit = true;
+
         protected JSONStorableString explanationString;
         public JSONStorableBool cycleForceCreatesVagTouch;
         protected JSONStorableBool cycleForceRequiresVagTouch;
@@ -158,6 +161,11 @@ namespace geesp0t
                 RegisterFloat(cycleForceRatioMax);
                 cycleForceRatioMax.storeType = JSONStorableParam.StoreType.Full;
                 CreateSlider(cycleForceRatioMax, true);
+
+                if (ensureCycleForcePresentOnInit)
+                {
+                    CreateCycleForceIfNeeded();
+                }
             }
             catch (Exception e) { SuperController.LogError("Exception caught: " + e); }
         }
