@@ -80,12 +80,12 @@ namespace geesp0t
                 {
                     _targetCycleForceAtomChooser.choices = GetTargetCycleForceAtomChoices();
                 };
-                cycleForceCreatesVagTouch = new JSONStorableBool("Always Moan if Cycle Force On", true);
+                cycleForceCreatesVagTouch = new JSONStorableBool("Always Moan if Cycle Force On", false);
                 CreateToggle(cycleForceCreatesVagTouch);
                 RegisterBool(cycleForceCreatesVagTouch);
                 cycleForceCreatesVagTouch.storeType = JSONStorableParam.StoreType.Full;
 
-                cycleForceRequiresVagTouch = new JSONStorableBool("Cycle Force Requires Vag Touch", false);
+                cycleForceRequiresVagTouch = new JSONStorableBool("Cycle Force Requires Vag Touch", true);
                 CreateToggle(cycleForceRequiresVagTouch);
                 RegisterBool(cycleForceRequiresVagTouch);
                 cycleForceRequiresVagTouch.storeType = JSONStorableParam.StoreType.Full;
@@ -133,7 +133,7 @@ namespace geesp0t
                 cycleForceFactor.storeType = JSONStorableParam.StoreType.Full;
 
                 float forceFactorDefault = 30.0f;
-                if (IS_AUTOMATE_VERSION.IS_AUTOMATE) forceFactorDefault = 200.0f;
+                if (IS_AUTOMATE_VERSION.IS_AUTOMATE) forceFactorDefault = 100.0f;
                 cycleForceFactorMin = new JSONStorableFloat("Force Factor Min", forceFactorDefault, 0f, 500f, false);
                 RegisterFloat(cycleForceFactorMin);
                 cycleForceFactorMin.storeType = JSONStorableParam.StoreType.Full;
