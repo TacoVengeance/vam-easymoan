@@ -218,6 +218,10 @@ namespace geesp0t
 
             _targetCycleForce.periodRatio = 0.25f;
 
+            _targetCycleForce.containingAtom.freeControllers.First().canGrabPosition = false;
+            _targetCycleForce.containingAtom.freeControllers.First().canGrabRotation = false;
+            _targetCycleForce.containingAtom.hidden = true;
+
             RotateCreatedCycleForceToHip();
         }
 
